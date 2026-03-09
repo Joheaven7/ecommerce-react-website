@@ -1,11 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { useCart } from '../context/CartContext'; // Import useCart
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const { cartItems } = useCart(); // Get cart items from cart context
   const navigate = useNavigate();
   const [showWelcome, setShowWelcome] = useState(false);
+
+  // Calculate total number of items in cart (sum of quantities)
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   useEffect(() => {
     if (user) {
@@ -26,7 +31,12 @@ const Navbar = () => {
         <Link to='/' className='navbar-brand'>ShopHub</Link>
         <div className='navbar-links'>
           <Link className='navbar-link' to='/'>Home</Link>
-          <Link className='navbar-link' to='/checkout'>Cart</Link>
+          <Link className='navbar-link' to='/checkout'>
+            Cart
+            {cartItemCount > 0 && (
+              <span className="cart-badge">{cartItemCount}</span>
+            )}
+          </Link>
         </div>
         <div className='navbar-auth'>
           {user ? (
