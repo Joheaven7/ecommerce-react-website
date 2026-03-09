@@ -526,3 +526,31 @@ body {
     align-items: flex-start;
   }
 }
+
+/* Progress bar for Loading Product detail */
+
+.progress-loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 30%;
+  background: #007bff;
+  animation: progress 1.5s infinite ease-in-out;
+}
+
+@keyframes progress {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}

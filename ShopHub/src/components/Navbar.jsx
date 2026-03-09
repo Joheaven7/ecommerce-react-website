@@ -7,19 +7,13 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showWelcome, setShowWelcome] = useState(false);
 
-  // Show welcome message when user logs in
   useEffect(() => {
     if (user) {
       setShowWelcome(true);
-      // Auto-hide after 10 seconds
-      const timer = setTimeout(() => {
-        setShowWelcome(false);
-      }, 10000); // 10 seconds
-
-      // Cleanup timer if component unmounts or user changes
+      const timer = setTimeout(() => setShowWelcome(false), 10000);
       return () => clearTimeout(timer);
     }
-  }, [user]); // Re-run when user changes (logs in/out)
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -36,29 +30,14 @@ const Navbar = () => {
         </div>
         <div className='navbar-auth'>
           {user ? (
-            // Show when user is logged in
             <div className="navbar-user">
-              {showWelcome && (
-                <span className="user-welcome-message">
-                  Welcome, {user.email}!
-                </span>
-              )}
-              <button 
-                onClick={handleLogout} 
-                className='btn btn-secondary'
-              >
-                Logout
-              </button>
+              {showWelcome ? <span className="navbar-greeting">Welcome, {user.email}!</span> : null}
+              <button onClick={handleLogout} className='btn btn-secondary'>Logout</button>
             </div>
           ) : (
-            // Show when user is not logged in
             <div className="navbar-auth-links">
-              <Link to='/auth' state={{ mode: 'login' }} className='btn btn-secondary'>
-                Login
-              </Link>
-              <Link to='/auth' state={{ mode: 'signup' }} className='btn btn-primary'>
-                Signup
-              </Link>
+              <Link to='/auth' state={{ mode: 'login' }} className='btn btn-secondary'>Login</Link>
+              <Link to='/auth' state={{ mode: 'signup' }} className='btn btn-primary'>Signup</Link>
             </div>
           )}
         </div>
